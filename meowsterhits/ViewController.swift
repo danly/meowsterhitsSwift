@@ -78,8 +78,9 @@ class ViewController: UIViewController {
         gameStarted = true
         shuffledStacks = pracArr.shuffled()
         //        println(shuffledStacks)
-        
-        currentStackLabel.text = String(pracArr[0])
+        currentStack = shuffledStacks[0] as! Int
+        nextStack = shuffledStacks[1] as! Int
+        currentStackLabel.text = String(currentStack)
     }
 
 }
@@ -92,7 +93,6 @@ extension Array {
             let j = Int(arc4random_uniform(UInt32(list.count - i))) + i
             swap(&list[i], &list[j])
         }
-        list
         return list
     }
 }
