@@ -76,6 +76,8 @@ class ViewController: UIViewController {
             nextStack = -1
         } else if nextStack == -1 {
             println("gethere!")
+            remaining = shuffledStacks.count - stackCounter
+            remainingStacksLabel.text = "Stacks Left: \(remaining)"
             currentStackLabel.text = "Done!"
             nextStackLabel.text = "Hoorah"
             return
