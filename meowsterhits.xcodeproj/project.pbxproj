@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		602C8A421B9E937900CE73DB /* UIGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602C8A411B9E937900CE73DB /* UIGameView.swift */; };
 		60DA54B11B9CD60D0048AC81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DA54B01B9CD60D0048AC81 /* AppDelegate.swift */; };
 		60DA54B31B9CD60D0048AC81 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DA54B21B9CD60D0048AC81 /* ViewController.swift */; };
 		60DA54B61B9CD60D0048AC81 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60DA54B41B9CD60D0048AC81 /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		602C8A411B9E937900CE73DB /* UIGameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIGameView.swift; sourceTree = "<group>"; };
 		60DA54AB1B9CD60D0048AC81 /* meowsterhits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = meowsterhits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60DA54AF1B9CD60D0048AC81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		60DA54B01B9CD60D0048AC81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				60DA54B01B9CD60D0048AC81 /* AppDelegate.swift */,
 				60DA54B21B9CD60D0048AC81 /* ViewController.swift */,
 				60DA54B41B9CD60D0048AC81 /* Main.storyboard */,
+				602C8A411B9E937900CE73DB /* UIGameView.swift */,
 				60DA54B71B9CD60D0048AC81 /* Images.xcassets */,
 				60DA54B91B9CD60D0048AC81 /* LaunchScreen.xib */,
 				60DA54AE1B9CD60D0048AC81 /* Supporting Files */,
@@ -212,6 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				602C8A421B9E937900CE73DB /* UIGameView.swift in Sources */,
 				60DA54B31B9CD60D0048AC81 /* ViewController.swift in Sources */,
 				60DA54B11B9CD60D0048AC81 /* AppDelegate.swift in Sources */,
 			);
@@ -409,6 +413,7 @@
 				60DA54CC1B9CD60E0048AC81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		60DA54CD1B9CD60E0048AC81 /* Build configuration list for PBXNativeTarget "meowsterhitsTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +422,7 @@
 				60DA54CF1B9CD60E0048AC81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

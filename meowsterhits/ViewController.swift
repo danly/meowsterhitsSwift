@@ -10,6 +10,12 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    override func viewDidLoad() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let gameVC = storyboard.instantiateViewControllerWithIdentifier("GameVC") as! UIViewController
+        self.view.addSubview(gameVC.view)
+    }
+    
     @IBOutlet weak var currentStackLabel: UILabel!
     @IBOutlet weak var nextStackLabel: UILabel!
     @IBOutlet weak var moveStack: UIButton!
@@ -76,8 +82,9 @@ class ViewController: UIViewController {
             nextStack = -1
         } else if nextStack == -1 {
             println("gethere!")
+            gameStarted = false
             remaining = shuffledStacks.count - stackCounter
-            remainingStacksLabel.text = "Stacks Left: \(remaining)"
+            remainingStacksLabel.text = "Stacks Left: 0"
             currentStackLabel.text = "Done!"
             nextStackLabel.text = "Hoorah"
             return
@@ -114,3 +121,19 @@ extension Array {
         return list
     }
 }
+
+class UIGameViewController: UIViewController {
+
+    
+    
+
+
+}
+
+
+
+
+
+
+
+
