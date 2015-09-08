@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     
     @IBOutlet weak var currentStackLabel: UILabel!
+    @IBOutlet weak var nextStackLabel: UILabel!
     @IBOutlet weak var moveStack: UIButton!
     @IBOutlet weak var lowerStack: UIButton!
     @IBOutlet weak var startButton: UIButton!
@@ -23,13 +24,14 @@ class ViewController: UIViewController {
                     5, 5, 5, //3 fives
                     6, 6, 6] //3 sixes
 
-    let pracArr = [1,2,3]
+    let pracArr = [1,2,3,5]
     
     var shuffledStacks = []
     var gameStarted = false
-    var currentStack = 5
-    var nextStack = 10
-    
+    var currentStack = -2
+    var nextStack = -3
+    var stackCounter = 0
+    var remaining = 30
     
     @IBAction func startAction(sender: AnyObject) {
         startGame()
@@ -42,8 +44,6 @@ class ViewController: UIViewController {
         if gameStarted == false {
             startGame()
         }
-        
-        currentStackLabel.text = String(currentStack)
         
         if currentStack != 0 {
             currentStack--
@@ -59,16 +59,31 @@ class ViewController: UIViewController {
         if gameStarted == false {
             startGame()
         }
+
         
-        if currentStack == 0 {
-            currentStack = nextStack
+        if currentStack == 0 && (stackCounter < shuffledStacks.count-2) {
+            println("first")
+            println(shuffledStacks.count - stackCounter)
+            stackCounter++
+            currentStack = shuffledStacks[stackCounter] as! Int
+            nextStack = shuffledStacks[stackCounter+1] as! Int
+        } else if currentStack == 0 && (stackCounter < shuffledStacks.count-1) {
+            println("second end")
+            println(shuffledStacks.count - stackCounter)
+            stackCounter++
+            currentStack = shuffledStacks[stackCounter] as! Int
+            nextStack = -1
+        } else if nextStack == -1 {
+            println("gethere!")
+            currentStackLabel.text = "Done!"
+            nextStackLabel.text = "Hoorah"
+            return
         }
         
         
         currentStackLabel.text = String(currentStack)
+        nextStackLabel.text = String(nextStack)
     }
-    
-
     
 
     
@@ -77,16 +92,16 @@ class ViewController: UIViewController {
     func startGame() {
         gameStarted = true
         shuffledStacks = pracArr.shuffled()
-        //        println(shuffledStacks)
-        currentStack = shuffledStacks[0] as! Int
-        nextStack = shuffledStacks[1] as! Int
+        currentStack = shuffledStacks[stackCounter] as! Int
+        nextStack = shuffledStacks[stackCounter + 1] as! Int
         currentStackLabel.text = String(currentStack)
+        nextStackLabel.text = String(nextStack)
     }
 
 }
 
 extension Array {
-    func shuffled() -> [T] {
+    func shuffled() -> Array {
         if count < 2 { return self }
         var list = self
         for i in 0..<(list.count - 1) {
