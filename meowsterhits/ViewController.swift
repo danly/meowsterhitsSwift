@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var moveStack: UIButton!
     @IBOutlet weak var lowerStack: UIButton!
     @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var remainingStacksLabel: UILabel!
     
     let stackArr = [0, 0, 0, //3 zeros
                     1, 1, 1, 1, 1, 1, 1, //7 ones
@@ -79,8 +80,8 @@ class ViewController: UIViewController {
             nextStackLabel.text = "Hoorah"
             return
         }
-        
-        
+        remaining = shuffledStacks.count - stackCounter
+        remainingStacksLabel.text = "Stacks Left: \(remaining)"
         currentStackLabel.text = String(currentStack)
         nextStackLabel.text = String(nextStack)
     }
@@ -91,7 +92,7 @@ class ViewController: UIViewController {
 
     func startGame() {
         gameStarted = true
-        shuffledStacks = pracArr.shuffled()
+        shuffledStacks = stackArr.shuffled()
         currentStack = shuffledStacks[stackCounter] as! Int
         nextStack = shuffledStacks[stackCounter + 1] as! Int
         currentStackLabel.text = String(currentStack)
