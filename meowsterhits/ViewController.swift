@@ -11,11 +11,12 @@ import UIKit
 class ViewController: UIViewController {
     
     override func viewDidLoad() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let gameVC = storyboard.instantiateViewControllerWithIdentifier("GameVC") as! UIViewController
-        self.view.addSubview(gameVC.view)
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let gameVC = storyboard.instantiateViewControllerWithIdentifier("GameVC") as! UIViewController
+//        self.view.addSubview(gameVC.view)
     }
-    
+
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var currentStackLabel: UILabel!
     @IBOutlet weak var nextStackLabel: UILabel!
     @IBOutlet weak var moveStack: UIButton!
@@ -69,19 +70,19 @@ class ViewController: UIViewController {
 
         
         if currentStack == 0 && (stackCounter < shuffledStacks.count-2) {
-            println("first")
-            println(shuffledStacks.count - stackCounter)
+//            println("first")
+//            println(shuffledStacks.count - stackCounter)
             stackCounter++
             currentStack = shuffledStacks[stackCounter] as! Int
             nextStack = shuffledStacks[stackCounter+1] as! Int
         } else if currentStack == 0 && (stackCounter < shuffledStacks.count-1) {
-            println("second end")
-            println(shuffledStacks.count - stackCounter)
+//            println("second end")
+//            println(shuffledStacks.count - stackCounter)
             stackCounter++
             currentStack = shuffledStacks[stackCounter] as! Int
             nextStack = -1
         } else if nextStack == -1 {
-            println("gethere!")
+//            println("gethere!")
             gameStarted = false
             remaining = shuffledStacks.count - stackCounter
             remainingStacksLabel.text = "Stacks Left: 0"
@@ -101,6 +102,7 @@ class ViewController: UIViewController {
 
     func startGame() {
         gameStarted = true
+        timeLabel.text = "Add Current Time"
         shuffledStacks = stackArr.shuffled()
         currentStack = shuffledStacks[stackCounter] as! Int
         nextStack = shuffledStacks[stackCounter + 1] as! Int
@@ -116,7 +118,9 @@ extension Array {
         var list = self
         for i in 0..<(list.count - 1) {
             let j = Int(arc4random_uniform(UInt32(list.count - i))) + i
-            swap(&list[i], &list[j])
+            if i != j { // Check if you are not trying to swap an element with itself
+                swap(&list[i], &list[j])
+            }
         }
         return list
     }
