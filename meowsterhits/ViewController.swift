@@ -7,14 +7,45 @@
 //
 
 import UIKit
+import GameplayKit
 
 class ViewController: UIViewController {
     
-    override func viewDidLoad() {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let gameVC = storyboard.instantiateViewControllerWithIdentifier("GameVC") as! UIViewController
-//        self.view.addSubview(gameVC.view)
+    // MARK: - constant variables
+    let stackArr = [0, 0, 0, //3 zeros
+        1, 1, 1, 1, 1, 1, 1, //7 ones
+        2, 2, 2, 2, 2, 2, //6 twos
+        3, 3, 3, 3, 3, //5 threes
+        4, 4, 4, //3 fours
+        5, 5, 5, //3 fives
+        6, 6, 6] //3 sixes
+    let pracArr = [1,2,3,5]
+    // Stack-related constants.
+    let BOX_HEIGHT = 50
+    let SCREEN_WIDTH = 512
+    let SCREEN_HEIGHT = 512
+
+    // MARK: - class variables
+    var shuffledStacks = [Int]()
+    var gameStarted = false
+    var nextStack = -3 {
+        didSet {
+            nextStackLabel.text = "\(nextStack)"
+        }
     }
+    var stackCounter = 0
+    var currentStack = -2 {
+        didSet {
+            currentStackLabel.text = "\(currentStack)"
+        }
+    }
+    var remaining = 30 {
+        didSet {
+            remainingStacksLabel.text = "Stacks Left: \(remaining)"
+        }
+    }
+
+    // MARK: - IBOutlet variables
 
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var currentStackLabel: UILabel!
@@ -23,73 +54,45 @@ class ViewController: UIViewController {
     @IBOutlet weak var lowerStack: UIButton!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var remainingStacksLabel: UILabel!
-    
-    // MARK: - constants
-    
-    let MAX_STACK = 7
-    
-    
-    // Image of stacked blocks.
-    @IBOutlet weak var imageView: UIImageView!
-    
-    let stackArr = [0, 0, 0, //3 zeros
-                    1, 1, 1, 1, 1, 1, 1, //7 ones
-                    2, 2, 2, 2, 2, 2, //6 twos
-                    3, 3, 3, 3, 3, //5 threes
-                    4, 4, 4, //3 fours
-                    5, 5, 5, //3 fives
-                    6, 6, 6] //3 sixes
+    @IBOutlet weak var imageView: UIImageView! // Image of stacked blocks.
 
-    let pracArr = [1,2,3,5]
-    
-    var shuffledStacks = []
-    var gameStarted = false
-    var currentStack = -2
-    var nextStack = -3
-    var stackCounter = 0
-    var remaining = 30
+    // MARK: - UIViewController methods
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Keep game controls hidden until start of game.
+        lowerStack.hidden = true
+        moveStack.hidden = true
+    }
+
+    // MARK: - IBAction methods
     
     @IBAction func startAction(sender: AnyObject) {
         startGame()
-        drawStack()
-//        currentStack = 8
-//        nextStack = 14
-//        currentStackLabel.text = String(currentStack)
     }
     
     @IBAction func lowerAction(sender: AnyObject) {
-        if gameStarted == false {
-            startGame()
-        }
-        
         if currentStack != 0 {
-            currentStack -= 1//= currentStack - 1
-            currentStackLabel.text = String(currentStack)
+            currentStack -= 1
         } else {
             currentStackLabel.text = "You Lose"
         }
         drawStack()
-        
     }
     
 
     @IBAction func moveAction(sender: AnyObject) {
-        if gameStarted == false {
-            startGame()
-        }
-
-        
         if currentStack == 0 && (stackCounter < shuffledStacks.count-2) {
 //            println("first")
 //            println(shuffledStacks.count - stackCounter)
-            stackCounter += 1 //= stackCounter + 1
-            currentStack = shuffledStacks[stackCounter] as! Int
-            nextStack = shuffledStacks[stackCounter+1] as! Int
+            stackCounter += 1
+            currentStack = shuffledStacks[stackCounter]
+            nextStack = shuffledStacks[stackCounter+1]
         } else if currentStack == 0 && (stackCounter < shuffledStacks.count-1) {
 //            println("second end")
 //            println(shuffledStacks.count - stackCounter)
-            stackCounter += 1 //= stackCounter + 1
-            currentStack = shuffledStacks[stackCounter] as! Int
+            stackCounter += 1
+            currentStack = shuffledStacks[stackCounter]
             nextStack = -1
         } else if nextStack == -1 {
 //            println("gethere!")
@@ -101,81 +104,67 @@ class ViewController: UIViewController {
             return
         }
         remaining = shuffledStacks.count - stackCounter
-        remainingStacksLabel.text = "Stacks Left: \(remaining)"
-        currentStackLabel.text = String(currentStack)
-        nextStackLabel.text = String(nextStack)
+        drawStack()
     }
 
+    // MARK: - custom methods
+
     func startGame() {
-        gameStarted = true
+        // Make user buttons visibile.
+        moveStack.hidden = false
+        lowerStack.hidden = false
+
         timeLabel.text = "Add Current Time"
-        shuffledStacks = stackArr.shuffled()
-        currentStack = shuffledStacks[stackCounter] as! Int
-        nextStack = shuffledStacks[stackCounter + 1] as! Int
-        currentStackLabel.text = String(currentStack)
-        nextStackLabel.text = String(nextStack)
+
+        // Shuffle array of stack heights.
+        if #available(iOS 9.0, *) {
+            shuffledStacks = GKRandomSource.sharedRandom().arrayByShufflingObjectsInArray(stackArr) as! [Int]
+        } else {
+            shuffledStacks = stackArr.shuffled()
+        }
+        // Update stack variables.
+        currentStack = shuffledStacks[stackCounter]
+        nextStack = shuffledStacks[stackCounter + 1]
+        drawStack()
     }
     
-    // MARK: - core graphics methods
-    
     func drawStack() {
-        
-        let BOX_HEIGHT = 50
-        let SCREEN_WIDTH = 512
-        let SCREEN_HEIGHT = 512
-        
-        
+        // Initialize context for Core Graphics.
         UIGraphicsBeginImageContextWithOptions(CGSize(width: SCREEN_WIDTH, height: SCREEN_HEIGHT), false, 0)
         let context = UIGraphicsGetCurrentContext()
-        
-        for i in 0 ..< (shuffledStacks[0] as! Int + 1) {
+
+        // Draw the cat.
+        let cat = CGRect(
+            x: SCREEN_WIDTH / 2,
+            y: SCREEN_HEIGHT - (currentStack + 2) * BOX_HEIGHT,
+            width: BOX_HEIGHT,
+            height: BOX_HEIGHT)
+        CGContextSetFillColorWithColor(context, UIColor.redColor().CGColor)
+        CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor)
+        CGContextSetLineWidth(context, 1)
+
+        CGContextAddRect(context, cat)
+        CGContextDrawPath(context, .FillStroke)
+
+        // Draw yellow rectangles.
+        for i in 0 ..< currentStack {
             let rectangle = CGRect(
                 x: SCREEN_WIDTH / 2,
                 y: SCREEN_HEIGHT - (i + 2) * BOX_HEIGHT,
                 width: BOX_HEIGHT,
                 height: BOX_HEIGHT)
-            CGContextSetFillColorWithColor(context, UIColor.redColor().CGColor)
+            CGContextSetFillColorWithColor(context, UIColor.yellowColor().CGColor)
             CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor)
             CGContextSetLineWidth(context, 1)
             
             CGContextAddRect(context, rectangle)
             CGContextDrawPath(context, .FillStroke)
         }
-        
-        
+
+        // Update image view.
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         imageView.image = img
     }
 
 }
-
-extension Array {
-    func shuffled() -> Array {
-        if count < 2 { return self }
-        var list = self
-        for i in 0..<(list.count - 1) {
-            let j = Int(arc4random_uniform(UInt32(list.count - i))) + i
-            if i != j { // Check if you are not trying to swap an element with itself
-                swap(&list[i], &list[j])
-            }
-        }
-        return list
-    }
-}
-
-class UIGameViewController: UIViewController {
-
-    
-    
-
-
-}
-
-
-
-
-
-
-
-
