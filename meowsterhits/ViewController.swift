@@ -10,8 +10,9 @@ import UIKit
 import GameplayKit
 
 class ViewController: UIViewController {
-    
+
     // MARK: - constant variables
+
     let stackArr = [0, 0, 0, //3 zeros
         1, 1, 1, 1, 1, 1, 1, //7 ones
         2, 2, 2, 2, 2, 2, //6 twos
@@ -26,14 +27,14 @@ class ViewController: UIViewController {
     let SCREEN_HEIGHT = 512
 
     // MARK: - class variables
+
     var shuffledStacks = [Int]()
-    var gameStarted = false
+    var stackCounter = 0
     var nextStack = -3 {
         didSet {
             nextStackLabel.text = "\(nextStack)"
         }
     }
-    var stackCounter = 0
     var currentStack = -2 {
         didSet {
             currentStackLabel.text = "\(currentStack)"
@@ -66,11 +67,11 @@ class ViewController: UIViewController {
     }
 
     // MARK: - IBAction methods
-    
+
     @IBAction func startAction(sender: AnyObject) {
         startGame()
     }
-    
+
     @IBAction func lowerAction(sender: AnyObject) {
         if currentStack != 0 {
             currentStack -= 1
@@ -79,7 +80,7 @@ class ViewController: UIViewController {
         }
         drawStack()
     }
-    
+
 
     @IBAction func moveAction(sender: AnyObject) {
         if currentStack == 0 && (stackCounter < shuffledStacks.count-2) {
@@ -96,7 +97,6 @@ class ViewController: UIViewController {
             nextStack = -1
         } else if nextStack == -1 {
 //            println("gethere!")
-            gameStarted = false
             remaining = shuffledStacks.count - stackCounter
             remainingStacksLabel.text = "Stacks Left: 0"
             currentStackLabel.text = "Done!"
@@ -110,7 +110,7 @@ class ViewController: UIViewController {
     // MARK: - custom methods
 
     func startGame() {
-        // Make user buttons visibile.
+        // Make user buttons visible.
         moveStack.hidden = false
         lowerStack.hidden = false
 
@@ -127,7 +127,7 @@ class ViewController: UIViewController {
         nextStack = shuffledStacks[stackCounter + 1]
         drawStack()
     }
-    
+
     func drawStack() {
         // Initialize context for Core Graphics.
         UIGraphicsBeginImageContextWithOptions(CGSize(width: SCREEN_WIDTH, height: SCREEN_HEIGHT), false, 0)
@@ -156,7 +156,7 @@ class ViewController: UIViewController {
             CGContextSetFillColorWithColor(context, UIColor.yellowColor().CGColor)
             CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor)
             CGContextSetLineWidth(context, 1)
-            
+
             CGContextAddRect(context, rectangle)
             CGContextDrawPath(context, .FillStroke)
         }
