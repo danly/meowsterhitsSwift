@@ -24,6 +24,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var remainingStacksLabel: UILabel!
     
+    // MARK: - constants
+    
+    let MAX_STACK = 7
+    
+    
+    // Image of stacked blocks.
+    @IBOutlet weak var imageView: UIImageView!
+    
     let stackArr = [0, 0, 0, //3 zeros
                     1, 1, 1, 1, 1, 1, 1, //7 ones
                     2, 2, 2, 2, 2, 2, //6 twos
@@ -43,6 +51,7 @@ class ViewController: UIViewController {
     
     @IBAction func startAction(sender: AnyObject) {
         startGame()
+        drawStack()
 //        currentStack = 8
 //        nextStack = 14
 //        currentStackLabel.text = String(currentStack)
@@ -54,11 +63,12 @@ class ViewController: UIViewController {
         }
         
         if currentStack != 0 {
-            currentStack--
+            currentStack -= 1//= currentStack - 1
             currentStackLabel.text = String(currentStack)
         } else {
             currentStackLabel.text = "You Lose"
         }
+        drawStack()
         
     }
     
@@ -72,13 +82,13 @@ class ViewController: UIViewController {
         if currentStack == 0 && (stackCounter < shuffledStacks.count-2) {
 //            println("first")
 //            println(shuffledStacks.count - stackCounter)
-            stackCounter++
+            stackCounter += 1 //= stackCounter + 1
             currentStack = shuffledStacks[stackCounter] as! Int
             nextStack = shuffledStacks[stackCounter+1] as! Int
         } else if currentStack == 0 && (stackCounter < shuffledStacks.count-1) {
 //            println("second end")
 //            println(shuffledStacks.count - stackCounter)
-            stackCounter++
+            stackCounter += 1 //= stackCounter + 1
             currentStack = shuffledStacks[stackCounter] as! Int
             nextStack = -1
         } else if nextStack == -1 {
@@ -95,10 +105,6 @@ class ViewController: UIViewController {
         currentStackLabel.text = String(currentStack)
         nextStackLabel.text = String(nextStack)
     }
-    
-
-    
-
 
     func startGame() {
         gameStarted = true
@@ -108,6 +114,38 @@ class ViewController: UIViewController {
         nextStack = shuffledStacks[stackCounter + 1] as! Int
         currentStackLabel.text = String(currentStack)
         nextStackLabel.text = String(nextStack)
+    }
+    
+    // MARK: - core graphics methods
+    
+    func drawStack() {
+        
+        let BOX_HEIGHT = 50
+        let SCREEN_WIDTH = 512
+        let SCREEN_HEIGHT = 512
+        
+        
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: SCREEN_WIDTH, height: SCREEN_HEIGHT), false, 0)
+        let context = UIGraphicsGetCurrentContext()
+        
+        for i in 0 ..< (shuffledStacks[0] as! Int + 1) {
+            let rectangle = CGRect(
+                x: SCREEN_WIDTH / 2,
+                y: SCREEN_HEIGHT - (i + 2) * BOX_HEIGHT,
+                width: BOX_HEIGHT,
+                height: BOX_HEIGHT)
+            CGContextSetFillColorWithColor(context, UIColor.redColor().CGColor)
+            CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor)
+            CGContextSetLineWidth(context, 1)
+            
+            CGContextAddRect(context, rectangle)
+            CGContextDrawPath(context, .FillStroke)
+        }
+        
+        
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        imageView.image = img
     }
 
 }
