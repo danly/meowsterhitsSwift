@@ -14,6 +14,7 @@
 		60DA54B81B9CD60D0048AC81 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60DA54B71B9CD60D0048AC81 /* Images.xcassets */; };
 		60DA54BB1B9CD60D0048AC81 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60DA54B91B9CD60D0048AC81 /* LaunchScreen.xib */; };
 		60DA54C71B9CD60E0048AC81 /* meowsterhitsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DA54C61B9CD60E0048AC81 /* meowsterhitsTests.swift */; };
+		748536DF1CF4214C00FC3366 /* Array+shuffled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748536DE1CF4214C00FC3366 /* Array+shuffled.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		60DA54C01B9CD60E0048AC81 /* meowsterhitsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = meowsterhitsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		60DA54C51B9CD60E0048AC81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		60DA54C61B9CD60E0048AC81 /* meowsterhitsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = meowsterhitsTests.swift; sourceTree = "<group>"; };
+		748536DE1CF4214C00FC3366 /* Array+shuffled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+shuffled.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 				602C8A411B9E937900CE73DB /* UIGameView.swift */,
 				60DA54B71B9CD60D0048AC81 /* Images.xcassets */,
 				60DA54B91B9CD60D0048AC81 /* LaunchScreen.xib */,
+				748536DD1CF4213700FC3366 /* Extensions */,
 				60DA54AE1B9CD60D0048AC81 /* Supporting Files */,
 			);
 			path = meowsterhits;
@@ -113,6 +116,14 @@
 				60DA54C51B9CD60E0048AC81 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		748536DD1CF4213700FC3366 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				748536DE1CF4214C00FC3366 /* Array+shuffled.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,6 +229,7 @@
 			files = (
 				602C8A421B9E937900CE73DB /* UIGameView.swift in Sources */,
 				60DA54B31B9CD60D0048AC81 /* ViewController.swift in Sources */,
+				748536DF1CF4214C00FC3366 /* Array+shuffled.swift in Sources */,
 				60DA54B11B9CD60D0048AC81 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
